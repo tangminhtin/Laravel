@@ -1,5 +1,7 @@
 <?php
 
+use App\POST;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -49,7 +51,7 @@ use Illuminate\Support\Facades\Route;
 | DATABASE Raw SQL Queries
 |--------------------------------------------------------------------------
 */
-
+/*
 // insert
 Route::get('/insert', function() {
     DB::insert('INSERT INTO posts(title, content) VALUES(?, ?)', ['PHP with laravel', 'Laravel is the best thing that has happened to PHP']);
@@ -75,4 +77,69 @@ Route::get('/update', function() {
 Route::get('/delete', function() {
     $deleted = DB::delete('DELETE FROM posts WHERE id=?', [1]);
     return $deleted;
+});
+*/
+
+/*
+|--------------------------------------------------------------------------
+| ELOQUENT
+|--------------------------------------------------------------------------
+*/
+
+// read
+Route::get('/read', function() {
+    $posts = Post::all();
+    
+    foreach($posts as $post) {
+        return $post->title;
+    }
+});
+
+// find
+Route::get('/find', function() {
+    $post = Post::find(2);
+    return $post->title;
+});
+
+// where
+Route::get('/where', function() {
+    $post = Post::where('id', 2) -> orderBy('id', 'desc') -> take(1) -> get();
+    return $post;
+});
+
+// find or fail
+Route::get('/find_or_fail', function() {
+    $posts = Post::findOrFail(1);
+    // $posts = Post::where('users_count', '<', 50) -> firstOrFail();
+    return $posts;
+});
+
+// insert
+Route::get('/insert', function() {
+    $post = new Post;
+
+    $post->title = 'HTML';
+    $post->content = 'Hypertext Makup Language';
+
+    $post->save();
+});
+
+// insert data by mass assignment
+Route::get('/create', function() {
+    Post::create(['title'=>'The create method', 'content'=>'I learning Laravel']);
+});
+
+// update by find
+Route::get('/update_by_find', function() {
+    $post = Post::find(4);
+
+    $post->title = 'HTML updated';
+    $post->content = 'Hypertext Makup Language updated';
+
+    $post->save();
+});
+
+// update
+Route::get('/update', function() {
+    Post::where('id', 2) -> where('is_admin', 0) -> update(['title'=>'PHP advanced', 'content'=>'New Content']);
 });

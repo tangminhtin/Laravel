@@ -40,3 +40,6 @@ php artisan migrate
 php artisan migrate:reset
 php artisan migrate:refresh
 php artisan migrate:status
+
+## Create model class
+php artisan make:model Post
