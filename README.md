@@ -21,3 +21,22 @@ php artisan route:list
 php artisan make:controller PostsController
 or
 php artisan make:controller --resource PostsController
+
+## Migration database (connect)
+php artisan migrate
+
+## Create migration (table)
+php artisan make:migration create_posts_table --create="posts"
+php artisan migrate
+
+## Dropping migration
+php artisan migrate:rollback
+
+## Adding columns to existing tables using migrations
+php artisan make:migration add_is_admin_column_to_posts_tables --table="posts"
+php artisan migrate
+
+## Some more migration commands
+php artisan migrate:reset
+php artisan migrate:refresh
+php artisan migrate:status
