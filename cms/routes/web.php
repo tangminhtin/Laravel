@@ -40,6 +40,39 @@ use Illuminate\Support\Facades\Route;
 
 // Route::resource('posts', 'PostsController');
 
-Route::get('/contact', 'PostsController@contact');
+// Route::get('/contact', 'PostsController@contact');
 
-Route::get('/post/{id}/{name}/{password}', 'PostsController@show_view');
+// Route::get('/post/{id}/{name}/{password}', 'PostsController@show_view');
+
+/*
+|--------------------------------------------------------------------------
+| DATABASE Raw SQL Queries
+|--------------------------------------------------------------------------
+*/
+
+// insert
+Route::get('/insert', function() {
+    DB::insert('INSERT INTO posts(title, content) VALUES(?, ?)', ['PHP with laravel', 'Laravel is the best thing that has happened to PHP']);
+});
+
+// read
+Route::get('/read', function() {
+    $results = DB::select('SELECT * FROM posts WHERE id=?', [1]);
+    
+    // foreach($results as $post) {
+    //     return $post->title;
+    // }
+    return var_dump($results);
+});
+
+// update
+Route::get('/update', function() {
+    $updated = DB::update('UPDATE posts SET title=? WHERE id=?', ['Updated title', 1]);
+    return $updated;
+});
+
+// delete
+Route::get('/delete', function() {
+    $deleted = DB::delete('DELETE FROM posts WHERE id=?', [1]);
+    return $deleted;
+});
